@@ -71,8 +71,8 @@ namespace Connect4Game
             this.Connect4Board.Size = new System.Drawing.Size(615, 450);
             this.Connect4Board.TabIndex = 0;
             this.Connect4Board.TabStop = false;
-            this.Connect4Board.Click += new System.EventHandler(this.Connect4Board_Click);
-            this.Connect4Board.MouseHover += new System.EventHandler(this.Connect4Board_MouseHover);
+            this.Connect4Board.MouseClick += Connect4Board_Click;
+            this.Connect4Board.MouseMove += Connect4BoardOnMouseMove;
 
             // 
             // BlackRadioButton

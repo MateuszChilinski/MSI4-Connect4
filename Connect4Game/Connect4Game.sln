@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Game", "Connect4Game\Connect4Game.csproj", "{7867ED0F-C050-4473-954A-A29E25142C72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCTS", "MCTS\MCTS.csproj", "{4D53948F-BB65-4CFB-815D-407C4EAF728B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connect4Model", "Connect4Model\Connect4Model.csproj", "{18160E81-4790-4F6D-A988-8304E394D525}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7867ED0F-C050-4473-954A-A29E25142C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7867ED0F-C050-4473-954A-A29E25142C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7867ED0F-C050-4473-954A-A29E25142C72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D53948F-BB65-4CFB-815D-407C4EAF728B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D53948F-BB65-4CFB-815D-407C4EAF728B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D53948F-BB65-4CFB-815D-407C4EAF728B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D53948F-BB65-4CFB-815D-407C4EAF728B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18160E81-4790-4F6D-A988-8304E394D525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18160E81-4790-4F6D-A988-8304E394D525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18160E81-4790-4F6D-A988-8304E394D525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18160E81-4790-4F6D-A988-8304E394D525}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
