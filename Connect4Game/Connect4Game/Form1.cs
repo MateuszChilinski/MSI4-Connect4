@@ -76,7 +76,10 @@ namespace Connect4Game
         {
             Game.RestartGame();
             Connect4Board.Refresh();
-            AI = new MCTSAI();
+            var AIColour = UserPlayer == PlayerColor.Red ? PlayerColor.Black : PlayerColor.Red;
+            AI = new MCTSAI(false, AIColour);
+            if (AIColour == PlayerColor.Red)
+                AI.MakeMove(Game);
         }
 
         private void Connect4Board_Paint(object sender, PaintEventArgs e)
@@ -104,6 +107,10 @@ namespace Connect4Game
             if (BlackRadioButton.Checked)
                 UserPlayer = PlayerColor.Black;
             Game.RestartGame();
+            var AIColour = UserPlayer == PlayerColor.Red ? PlayerColor.Black : PlayerColor.Red;
+            AI = new MCTSAI(false, AIColour);
+            if(AIColour == PlayerColor.Red)
+                AI.MakeMove(Game);
         }
 
         private void RedRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -126,6 +133,7 @@ namespace Connect4Game
             if (available != null && Game.GameStatus != GameStatusType.BlackWin && Game.GameStatus != GameStatusType.RedWin)
             {
                 Game.PutInColumn(available.Item2, UserPlayer);
+                Connect4Board.Refresh();
                 if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                 {
                     MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
@@ -133,12 +141,12 @@ namespace Connect4Game
                 else
                 {
                     AI.MakeMove(Game);
+                    Connect4Board.Refresh();
                     if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                     {
                         MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
                     }
                 }
-                Connect4Board.Refresh();
             }
         }
 

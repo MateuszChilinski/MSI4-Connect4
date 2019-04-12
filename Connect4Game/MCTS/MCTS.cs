@@ -57,6 +57,10 @@ namespace MCTS
         private Node Root = new Node();
         private bool train;
         private PlayerColor AIColour;
+        private GameStatusType GameWon
+        {
+            get => AIColour == PlayerColor.Black ? GameStatusType.BlackWin : GameStatusType.RedWin;
+        }
         private double C = 0.5;
         private const int it = 100000;
         Random rnd = new Random();
@@ -88,7 +92,19 @@ namespace MCTS
                     Root = Serializer.Deserialize<Node>(stream);
                 RestoreParents(Root, null);
                 stream.Close();
+                if (_aicolor == PlayerColor.Red)
+                {
+                    //switch win/lose
+                    SwitchWinLose(Root);
+                }
             }
+        }
+
+        private void SwitchWinLose(Node node)
+        {
+            node.TimesWon = node.TimesVisited - node.TimesWon;
+            foreach(var child in node.Nodes)
+                SwitchWinLose(child);
         }
 
         private void RestoreParents(Node root, Node parent)
@@ -168,7 +184,7 @@ namespace MCTS
                     newNode.columnChosen = column;
                     newNode.Parent = node;
                     node.Nodes.Add(newNode);
-                    if(updatedGame.GameStatus == GameStatusType.BlackWin)
+                    if(updatedGame.GameStatus == GameWon)
                         winners.Add(node);
                 }
 
@@ -179,10 +195,10 @@ namespace MCTS
                     return;
                 }
 
+                var losing = GameWon == GameStatusType.BlackWin ? GameStatusType.RedWin : GameWon;
                 foreach (var newNode in node.Nodes)
                 {
-
-                    if (newNode.GameState.GameStatus == GameStatusType.RedWin)
+                    if (newNode.GameState.GameStatus == losing)
                         winners.Add(node);
                 }
 
@@ -200,7 +216,7 @@ namespace MCTS
             else
             {
                 IConnect4 gameToSimulate = new Connect4((Connect4)node.GameState);
-                Backpropagation(node, gameToSimulate.GameStatus == GameStatusType.BlackWin);
+                Backpropagation(node, gameToSimulate.GameStatus == GameWon);
             }
         }
 
@@ -241,7 +257,7 @@ namespace MCTS
                 MakeSmartMove(gameToSimulate);
             }
 
-            bool won = gameToSimulate.GameStatus == GameStatusType.BlackWin;
+            bool won = gameToSimulate.GameStatus == GameWon;
             Backpropagation(node, won);
         }
         private void MakeSimulationMove(IConnect4 Game, int column)
