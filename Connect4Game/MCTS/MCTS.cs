@@ -58,7 +58,7 @@ namespace MCTS
         private bool train;
         private PlayerColor AIColour;
         private double C = 0.5;
-        private const int it = 1000000;
+        private const int it = 100000;
         Random rnd = new Random();
         public MCTSAI(bool _train = false, PlayerColor _aicolor = PlayerColor.Black)
         {
