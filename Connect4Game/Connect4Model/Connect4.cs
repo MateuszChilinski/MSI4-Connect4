@@ -160,47 +160,7 @@ namespace Connect4Model
                     Board[i, j] = FieldType.Empty;
                 }
             }
+            
         }
-        //protected Connect4(SerializationInfo info, StreamingContext context)
-        //{
-        //    List<string> redsString = (List<string>)info.GetValue("reds", typeof(List<string>));
-        //    List<string> blacksString = (List<string>)info.GetValue("blacks", typeof(List<string>));
-        //    foreach (string s in redsString)
-        //    {
-        //        var coords = s.Split(',');
-        //        Board[Int32.Parse(coords[0]), Int32.Parse(coords[1])] = FieldType.Red;
-        //    }
-        //    foreach (string s in blacksString)
-        //    {
-        //        var coords = s.Split(',');
-        //        Board[Int32.Parse(coords[0]), Int32.Parse(coords[1])] = FieldType.Black;
-        //    }
-
-        //    rows = info.GetInt32("rows");
-        //    columns = info.GetInt32("rows");
-        //    GameStatus = (GameStatusType) info.GetValue("status", typeof(GameStatusType));
-        //    CurrentPlayer = (PlayerColor) info.GetValue("player", typeof(PlayerColor));
-        //}
-        //public void GetObjectData(SerializationInfo info, StreamingContext context)
-        //{
-        //    List<string> reds = new List<string>();
-        //    List<string> blacks = new List<string>();
-        //    for (int i = 0; i < rows; i++)
-        //    {
-        //        for (int j = 0; j < columns; j++)
-        //        {
-        //            if (Board[i, j] != FieldType.Empty)
-        //            {
-
-        //            }
-        //        }
-        //    }
-        //    info.AddValue("reds", reds);
-        //    info.AddValue("blacks", blacks);
-        //    info.AddValue("rows", rows);
-        //    info.AddValue("columns", columns);
-        //    info.AddValue("status", GameStatus);
-        //    info.AddValue("player", CurrentPlayer);
-        //}
     }
 }

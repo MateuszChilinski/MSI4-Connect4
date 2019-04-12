@@ -58,18 +58,14 @@ namespace MCTS
         private bool train;
         private PlayerColor AIColour;
         private double C = 0.5;
-        private const int it = 50000000;
+        private const int it = 1000000;
         Random rnd = new Random();
         public MCTSAI(bool _train = false, PlayerColor _aicolor = PlayerColor.Black)
         {
             train = _train;
             AIColour = _aicolor;
 
-            Stream stream = new FileStream("person.bin", FileMode.OpenOrCreate, FileAccess.Read);
-            if(stream.Length != 0)
-                Root = Serializer.Deserialize<Node>(stream);
-            RestoreParents(Root, null);
-            stream.Close();
+            Stream stream;
 
             if (train)
             {
@@ -78,11 +74,20 @@ namespace MCTS
                 {
                     Selection(Root);
                     Console.SetCursorPosition(0, Console.CursorTop);
-                    Console.Write(((double)i/it)*100.0 + "%");
+                    Console.Write("Generowanie modelu: "+ ((double)i/it)*100.0 + "%");
                 }
 
-                var file = File.Create("person2.bin");
+                var file = File.Create("model.bin");
                     Serializer.Serialize(file, Root);
+            }
+            else
+            {
+
+                stream = new FileStream("model.bin", FileMode.OpenOrCreate, FileAccess.Read);
+                if (stream.Length != 0)
+                    Root = Serializer.Deserialize<Node>(stream);
+                RestoreParents(Root, null);
+                stream.Close();
             }
         }
 
@@ -120,7 +125,7 @@ namespace MCTS
                 Selection(Root);
             }
             s.Stop();
-            var bestNode = Root.Nodes.Aggregate((i, j) => i.TimesWon/i.TimesVisited > j.TimesWon/j.TimesVisited ? i : j);
+            var bestNode = Root.Nodes.Aggregate((i, j) => i.TimesWon > j.TimesWon ? i : j);
             Root = bestNode;
             Game.PutInColumn(bestNode.columnChosen, AIColour);
         }
@@ -152,6 +157,8 @@ namespace MCTS
             if (node.GameState.GameStatus != GameStatusType.BlackWin &&
                 node.GameState.GameStatus != GameStatusType.RedWin)
             {
+                List<Node> winners = new List<Node>();
+
                 var newNodes = GetAvailableMoves(node.GameState);
                 foreach (int column in newNodes)
                 {
@@ -161,7 +168,32 @@ namespace MCTS
                     newNode.columnChosen = column;
                     newNode.Parent = node;
                     node.Nodes.Add(newNode);
+                    if(updatedGame.GameStatus == GameStatusType.BlackWin)
+                        winners.Add(node);
                 }
+
+                if (winners.Count > 0)
+                {
+                    Node winnerNode = winners[0];
+                    Simulation(winnerNode);
+                    return;
+                }
+
+                foreach (var newNode in node.Nodes)
+                {
+
+                    if (newNode.GameState.GameStatus == GameStatusType.RedWin)
+                        winners.Add(node);
+                }
+
+
+                if (winners.Count > 0)
+                {
+                    Node winnerNode = winners[0];
+                    Simulation(winnerNode);
+                    return;
+                }
+
                 Node randomNode = node.Nodes[rnd.Next(0, node.Nodes.Count)];
                 Simulation(randomNode);
             }
@@ -185,19 +217,37 @@ namespace MCTS
             return AvailableMoves;
         }
 
+        private void MakeSmartMove(IConnect4 Game)
+        {
+            List<int> availableMoves = GetAvailableMoves(Game);
+            foreach (var move in availableMoves)
+            {
+                var newGame = new Connect4((Connect4)Game);
+                newGame.PutInColumn(move, Game.CurrentPlayer);
+                if (newGame.GameStatus == GameStatusType.BlackWin || newGame.GameStatus == GameStatusType.RedWin)
+                {
+                    Game.PutInColumn(move, Game.CurrentPlayer);
+                    return;
+                }
+            }
+            MakeRandomMove(Game);
+        }
         private void Simulation(Node node)
         {
             IConnect4 gameToSimulate = new Connect4((Connect4)node.GameState);
             while (gameToSimulate.GameStatus != GameStatusType.BlackWin &&
                    gameToSimulate.GameStatus != GameStatusType.RedWin && GetAvailableMoves(gameToSimulate).Count > 0)
             {
-                MakeRandomMove(gameToSimulate);
+                MakeSmartMove(gameToSimulate);
             }
 
             bool won = gameToSimulate.GameStatus == GameStatusType.BlackWin;
             Backpropagation(node, won);
         }
-
+        private void MakeSimulationMove(IConnect4 Game, int column)
+        {
+            Game.PutInColumn(column, Game.CurrentPlayer);
+        }
         private void MakeRandomMove(IConnect4 Game)
         {
             List<int> availableMoves = GetAvailableMoves(Game);
@@ -221,7 +271,7 @@ namespace MCTS
         {
             if (v.TimesVisited == 0)
                 return double.PositiveInfinity;
-            return v.TimesWon/v.TimesVisited + C * Math.Sqrt(Math.Log(v.Parent.TimesVisited) / v.TimesVisited);
+            return (double)v.TimesWon/v.TimesVisited + C * Math.Sqrt(Math.Log(v.Parent.TimesVisited) / v.TimesVisited);
         }
     }
 }

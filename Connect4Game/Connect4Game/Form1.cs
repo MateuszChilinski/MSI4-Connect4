@@ -76,6 +76,7 @@ namespace Connect4Game
         {
             Game.RestartGame();
             Connect4Board.Refresh();
+            AI = new MCTSAI();
         }
 
         private void Connect4Board_Paint(object sender, PaintEventArgs e)
@@ -125,14 +126,14 @@ namespace Connect4Game
             if (available != null && Game.GameStatus != GameStatusType.BlackWin && Game.GameStatus != GameStatusType.RedWin)
             {
                 Game.PutInColumn(available.Item2, UserPlayer);
-                if (Game.GameStatus != GameStatusType.Started)
+                if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                 {
                     MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
                 }
                 else
                 {
                     AI.MakeMove(Game);
-                    if (Game.GameStatus != GameStatusType.Started)
+                    if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                     {
                         MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
                     }
