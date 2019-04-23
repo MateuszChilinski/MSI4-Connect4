@@ -62,7 +62,7 @@ namespace MCTS
             get => AIColour == PlayerColor.Black ? GameStatusType.BlackWin : GameStatusType.RedWin;
         }
         private double C = 0.5;
-        private const int it = 100000;
+        private const int it = 100000000;
         Random rnd = new Random();
         public MCTSAI(bool _train = false, PlayerColor _aicolor = PlayerColor.Black)
         {
@@ -136,7 +136,7 @@ namespace MCTS
             // use some time to expand tree
             Stopwatch s = new Stopwatch();
             s.Start();
-            while (s.Elapsed < TimeSpan.FromSeconds(0.5))
+            while (s.Elapsed < TimeSpan.FromSeconds(2))
             {
                 Selection(Root);
             }
