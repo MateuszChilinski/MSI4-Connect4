@@ -44,10 +44,10 @@ namespace Connect4Game
                         continue;
                     if(field == FieldType.Red)
                     {
-                        DrawCircle(graphics, (int)UsedWidthPerOne, (int)UsedHeightPerOne, margin, i, j, Brushes.Red);
+                        DrawCircle(graphics, (int)UsedWidthPerOne, (int)UsedHeightPerOne, margin, i, j, Brushes.Yellow);
                     }
                     else
-                        DrawCircle(graphics, (int)UsedWidthPerOne, (int)UsedHeightPerOne, margin, i, j, Brushes.Black);
+                        DrawCircle(graphics, (int)UsedWidthPerOne, (int)UsedHeightPerOne, margin, i, j, Brushes.Red);
                 }
             }
             if(CurrentHover != null && Game.GameStatus != GameStatusType.BlackWin && Game.GameStatus != GameStatusType.RedWin)
@@ -136,7 +136,7 @@ namespace Connect4Game
                 Connect4Board.Refresh();
                 if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                 {
-                    MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
+                    MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czerwone" : "zolte") + ".");
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace Connect4Game
                     Connect4Board.Refresh();
                     if (Game.GameStatus != GameStatusType.Started && Game.GameStatus != GameStatusType.Initialised)
                     {
-                        MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czarne" : "czerwone") + ".");
+                        MessageBox.Show("Koniec gry. Wygrały " + (Game.GameStatus == GameStatusType.BlackWin ? "czerwone" : "zolte") + ".");
                     }
                 }
             }

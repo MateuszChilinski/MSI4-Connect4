@@ -82,7 +82,7 @@ namespace Connect4Game
             this.BlackRadioButton.Name = "BlackRadioButton";
             this.BlackRadioButton.Size = new System.Drawing.Size(73, 21);
             this.BlackRadioButton.TabIndex = 3;
-            this.BlackRadioButton.Text = "Czarny";
+            this.BlackRadioButton.Text = "Czerwony";
             this.BlackRadioButton.UseVisualStyleBackColor = true;
             this.BlackRadioButton.Click += new System.EventHandler(this.BlackRadioButton_CheckedChanged);
             // 
@@ -104,7 +104,7 @@ namespace Connect4Game
             this.RedRadioButton.Size = new System.Drawing.Size(90, 21);
             this.RedRadioButton.TabIndex = 1;
             this.RedRadioButton.TabStop = true;
-            this.RedRadioButton.Text = "Czerwony";
+            this.RedRadioButton.Text = "Zolty";
             this.RedRadioButton.UseVisualStyleBackColor = true;
             this.RedRadioButton.Click += new System.EventHandler(this.RedRadioButton_CheckedChanged);
             // 
